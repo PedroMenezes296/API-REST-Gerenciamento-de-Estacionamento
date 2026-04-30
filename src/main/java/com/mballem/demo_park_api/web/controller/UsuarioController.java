@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/usuarios")
@@ -36,6 +38,14 @@ public class UsuarioController {
         // @PathVariable vai pegar o json e passar para long
         Usuario user = usuarioService.editarSenha(id, usuario.getPassword());
         return ResponseEntity.ok().body(user);
+        //codigo 201
+    }
+
+    @GetMapping //estamos enviando um valor que seria o id que queremos
+    public ResponseEntity<List<Usuario>> getAll(@PathVariable Long id){
+        // @PathVariable vai pegar o json e passar para long
+        List<Usuario> users = usuarioService.buscarTodos();
+        return ResponseEntity.ok().body(users);
         //codigo 201
     }
 }

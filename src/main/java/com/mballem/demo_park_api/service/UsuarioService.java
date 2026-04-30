@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -35,5 +37,9 @@ public class UsuarioService {
         user.setPassword(password);
         return user;
         //não precisa de um usuarioRepository pois o hibernate ja entende que é um dado persistente
+    }
+    @Transactional(readOnly = true)
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
     }
 }
