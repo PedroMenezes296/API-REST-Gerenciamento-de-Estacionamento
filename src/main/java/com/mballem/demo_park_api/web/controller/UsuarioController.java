@@ -2,6 +2,9 @@ package com.mballem.demo_park_api.web.controller;
 
 import com.mballem.demo_park_api.entity.Usuario;
 import com.mballem.demo_park_api.service.UsuarioService;
+import com.mballem.demo_park_api.web.dto.UsuarioCreateDto;
+import com.mballem.demo_park_api.web.dto.UsuarioResponseDto;
+import com.mballem.demo_park_api.web.dto.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +22,9 @@ public class UsuarioController {
     // encapsular o objeto ususario e dps vai ser tranformado em json e enviado para o cliente,
     // criar um json com os campos do objeto usuario
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario){
-        Usuario user = usuarioService.salvar(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<UsuarioResponseDto> create(@RequestBody UsuarioCreateDto CreateDto){
+        Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(CreateDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(user));
         //codigo 201
     }
 
@@ -42,7 +45,7 @@ public class UsuarioController {
     }
 
     @GetMapping //estamos enviando um valor que seria o id que queremos
-    public ResponseEntity<List<Usuario>> getAll(@PathVariable Long id){
+    public ResponseEntity<List<Usuario>> getAll(){
         // @PathVariable vai pegar o json e passar para long
         List<Usuario> users = usuarioService.buscarTodos();
         return ResponseEntity.ok().body(users);
