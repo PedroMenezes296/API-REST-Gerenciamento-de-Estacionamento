@@ -4,6 +4,7 @@ import com.mballem.demo_park_api.entity.Usuario;
 import com.mballem.demo_park_api.service.UsuarioService;
 import com.mballem.demo_park_api.web.dto.UsuarioCreateDto;
 import com.mballem.demo_park_api.web.dto.UsuarioResponseDto;
+import com.mballem.demo_park_api.web.dto.UsuarioSenhaDto;
 import com.mballem.demo_park_api.web.dto.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,26 +30,26 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}") //estamos enviando um valor que seria o id que queremos
-    public ResponseEntity<Usuario> getById(@PathVariable Long id){
+    public ResponseEntity<UsuarioResponseDto> getById(@PathVariable Long id){
         // @PathVariable vai pegar o json e passar para long
         Usuario user = usuarioService.buscarPorId(id);
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(UsuarioMapper.toDto(user));
         //codigo 201
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario){
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UsuarioSenhaDto dto){
         // @PathVariable vai pegar o json e passar para long
-        Usuario user = usuarioService.editarSenha(id, usuario.getPassword());
-        return ResponseEntity.ok().body(user);
+        Usuario user = usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(),dto.getConfirmaSenha());
+        return ResponseEntity.noContent().build();
         //codigo 201
     }
 
     @GetMapping //estamos enviando um valor que seria o id que queremos
-    public ResponseEntity<List<Usuario>> getAll(){
+    public ResponseEntity<List<UsuarioResponseDto>> getAll(){
         // @PathVariable vai pegar o json e passar para long
         List<Usuario> users = usuarioService.buscarTodos();
-        return ResponseEntity.ok().body(users);
+        return ResponseEntity.ok().body(UsuarioMapper.toListDto(users));
         //codigo 201
     }
 }
