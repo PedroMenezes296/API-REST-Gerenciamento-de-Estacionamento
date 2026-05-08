@@ -61,8 +61,7 @@ src/main/java/com/mballem/demo_park_api/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/PedroMenezes296/demo-park-api.git
-cd demo-park-api
+git clone https://github.com/PedroMenezes296/API-REST-Gerenciamento-de-Estacionamento.git
 ```
 
 ### 2. Configure o banco de dados
